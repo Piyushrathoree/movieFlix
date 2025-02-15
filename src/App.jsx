@@ -8,14 +8,7 @@ import { updateSearchTerm } from "./appwrite.js";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const API_BASE_URL = "https://api.themoviedb.org/3";
 
-const API_OPTIONS = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${API_KEY}`,
-  },
-  
-};
+
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,7 +40,7 @@ function App() {
       headers: {
         accept: "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNDQwY2NhMTM2ZjI5ODhlN2VmYWZhODEzZmQxMzM5NCIsIm5iZiI6MTczOTU0NzY5Mi4yMjU5OTk4LCJzdWIiOiI2N2FmNjQyYzgwZjc2ZDYxZWI4ZTdiOTkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.FTAmcZM-mRwiN9_lgbaOohHfUN9gyz8QP1uoyKlhqC8",
+        `Bearer ${API_KEY}`,
       },
     };
 
