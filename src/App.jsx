@@ -3,6 +3,7 @@ import Search from "./components/Search.jsx";
 import Spinner from "./components/Spinner.jsx";
 import Card from "./components/Card.jsx";
 import { useDebounce } from "react-use";
+import { updateSearchTerm } from "./appwrite.js";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const API_BASE_URL = "https://api.themoviedb.org/3";
@@ -13,6 +14,7 @@ const API_OPTIONS = {
     accept: "application/json",
     Authorization: `Bearer ${API_KEY}`,
   },
+  
 };
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,6 +66,8 @@ function App() {
         return;
       }
       setMovieList(data.results);
+
+      updateSearchTerm()
     } catch (error) {
       console.error(error);
     } finally {
