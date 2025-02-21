@@ -3,10 +3,10 @@ import Search from "./components/Search.jsx";
 import Spinner from "./components/Spinner.jsx";
 import Card from "./components/Card.jsx";
 import { useDebounce } from "react-use";
-import { updateSearchTerm } from "./appwrite.js";
+import { getTrendingMovies, updateSearchCount } from "./appwrite.js";
 
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const API_BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [movieList, setMovieList] = useState([]);
   const [debounceTerms, setDebounceTerms] = useState("");
+  const [trendingMovies, setTrendingMovies] = useState([]);
   //   const fetchMovies = async () => {
   //     try {
   //       const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
@@ -27,6 +28,7 @@ function App() {
   //       console.error(error);
   //     }
   //   };
+
   useDebounce(() => setDebounceTerms(searchTerm), 500, [searchTerm]);
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -35,12 +37,12 @@ function App() {
     setLoading(true);
     const url =
       "https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
+
     const options = {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization:
-        `Bearer ${API_KEY}`,
+        Authorization: `Bearer ${API_KEY}`,
       },
     };
 
@@ -60,17 +62,30 @@ function App() {
       }
       setMovieList(data.results);
 
-      updateSearchTerm()
+      if (query && data.results.length > 0) {
+        await updateSearchCount(query, data.results[0]);
+      }
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
+  const loadTrendingMovies = async () => {
+    try {
+      const movies = await getTrendingMovies();
+      setTrendingMovies(movies);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    fetchMovies(debounceTerms);
+    fetchMovies(searchTerm);
   }, [debounceTerms]);
+  useEffect(() => {
+    loadTrendingMovies();
+  }, []);
   return (
     <>
       <main>
@@ -85,9 +100,21 @@ function App() {
             </h1>
           </header>
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          <br />
-          <br />
-          <section className="all-movies">
+          
+          {trendingMovies.length > 0 ? (
+            <section className="trending">
+              <h2>Trending Movies</h2>
+              <ul>
+                {trendingMovies.map((movie ,index)=>(
+                  <li key={movie.$id}>
+                    <p>{index+1}</p>
+                    <img src={movie.poster_url} alt={movie.title} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+          <section className="all-movies ">
             <h2>All Movies</h2>
             {loading ? (
               <Spinner />
