@@ -79,3 +79,21 @@ The application uses Tailwind CSS for styling. Custom styles are defined in `ind
 
 ## Conclusion
 MovieHub is a simple yet powerful application for searching and viewing movie details. The use of debouncing and the TMDB API ensures a smooth and efficient user experience.
+## Screenshots
+
+## Feedback and Contributions
+
+We welcome feedback and contributions! If you encounter any issues or have suggestions for improvement, feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/your-username/moviehub).
+
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). You are free to use, modify, and distribute this application as per the terms of the license.
+
+## Acknowledgements
+
+- **TMDB API**: Special thanks to [The Movie Database (TMDB)](https://www.themoviedb.org/) for providing the movie data.
+- **React**: Built with the power of [React](https://reactjs.org/).
+- **Tailwind CSS**: Styled using [Tailwind CSS](https://tailwindcss.com/).
+- **react-use**: Debouncing powered by [react-use](https://github.com/streamich/react-use).
+
+Thank you for using MovieHub! 🎥🍿
